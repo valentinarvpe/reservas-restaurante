@@ -56,6 +56,6 @@ public class Reserva implements Serializable{
     private String observaciones;
     
     @Column(name = "estado")
-    private Boolean estado;
+    private boolean estado;
 
 }

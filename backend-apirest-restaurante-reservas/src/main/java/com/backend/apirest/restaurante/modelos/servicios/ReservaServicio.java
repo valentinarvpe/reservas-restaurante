@@ -23,6 +23,13 @@ public class ReservaServicio implements IReservaServicio{
 	}
 
 	@Override
+	@Transactional(readOnly = true )
+	public List<Reserva> traerReservasPorEstado(boolean estado) {
+		return (List<Reserva>) reservaRepository.findAllByEstado(estado);
+	}
+
+	
+	@Override
 	public Reserva traerPorId(Long id) {
 		return reservaRepository.findById(id).orElse(null);
 	}

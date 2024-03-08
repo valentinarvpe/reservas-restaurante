@@ -107,7 +107,6 @@ export default {
     },
 
     created() {
-        //this.$toast.global.myerror('Error') ;
         if (this.reservaEditada != null) {
             this.reserva = this.reservaEditada
             this.titulo = this.tituloEdit != '' ? "Actualizar" : "Guardar"
@@ -132,7 +131,7 @@ export default {
             if (id != null) {
                 try {
                     let resp = await this.$axios.$put(`http://localhost:8080/api/reservas/${id}`, this.reserva);
-                    this.$toast.success(`Ok ${resp}`, {
+                    this.$toast.success(`Actualizado correctamente ${resp}`, {
                         icon: {
                             name: 'mdi-check-circle'
                         }, duration: 2000
@@ -145,7 +144,7 @@ export default {
             } else {
                 try {
                     let resp = await this.$axios.$post('http://localhost:8080/api', this.reserva);
-                    this.$toast.success(`Ok ${resp}`, {
+                    this.$toast.success(`Guardado correctamente ${resp}`, {
                         icon: {
                             name: 'mdi-check-circle'
                         }, duration: 2000

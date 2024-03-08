@@ -7,7 +7,7 @@
       <v-dialog v-model="dialogo" max-width="800px">
         <v-card>
           <v-card-title class="headline grey lighten-2">
-            <span class="headline">{{ formTitle }}</span>
+            <span class="headline">Editar registro</span>
           </v-card-title>
           <v-card-text>
             <v-container grid-list-md>
@@ -23,6 +23,28 @@
     <v-card>
       <v-card-title>
         Reservas
+        <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn color="success" 
+          icon v-on="on" @click="cargarConfirmadas()">
+          <v-icon>
+            mdi-check-circle
+          </v-icon>
+        </v-btn>
+        </template>
+        <span>Ver todas las confirmadas</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn color="warning" 
+          icon v-on="on" @click="getReservas()">
+          <v-icon>
+            mdi-alert-circle
+          </v-icon>
+        </v-btn>
+        </template>
+        <span>Ver todas las confirmadas</span>
+      </v-tooltip>
         <v-spacer></v-spacer>
         <v-text-field v-model="buscar" append-icon="mdi-magnify" label="Buscar" single-line hide-details></v-text-field>
       </v-card-title>
@@ -45,7 +67,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-icon class="me-2" size="x-large" v-if="item.estado" color="success">
-                  mdi-check-circle
+                  mdi-check-circle-outline
                 </v-icon>
                 <v-icon class="me-2" size="x-large" v-else="item.estado" color="warning">
                   mdi-alert-circle-outline
@@ -58,7 +80,7 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-icon class="me-2" size="small" @click="editar(item)">
+            <v-icon class="me-2" size="large" @click="editar(item)" :disabled="item.estado">
               mdi-pencil
             </v-icon>
           </template>
@@ -69,13 +91,14 @@
 </template>
 
 <script>
-import reserva from '../models/reserva'
 export default {
-  //middleware: 'redirectToRow',
+  middleware: 'redirectToRow',
   data: () => ({
     dialogo: false,
     loading: false,
     tituloEdit: '',
+    e1: 1,
+    confirmadas: false,
     cabecera: [
       { text: 'Nombres', value: 'nombres' },
       { text: 'Apellidos', value: 'apellidos' },
@@ -116,12 +139,6 @@ export default {
     }
   }),
 
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'Editar Registro' : 'Editar Registro'
-    }
-  },
-
   watch: {
     dialogo(val) {
       val || this.cerrar()
@@ -139,7 +156,12 @@ export default {
     },
 
     async getReservas() {
-      this.reservas = await this.$axios.$get('http://localhost:8080/api')
+      this.reservas = await this.$axios.$get(`http://localhost:8080/api/reservasEstados?estado=${false}`)
+    },
+
+    async cargarConfirmadas() {
+      this.confirmadas = true;
+      this.reservas = await this.$axios.$get(`http://localhost:8080/api/reservasEstados?estado=${true}`)
     },
 
     editar(item) {

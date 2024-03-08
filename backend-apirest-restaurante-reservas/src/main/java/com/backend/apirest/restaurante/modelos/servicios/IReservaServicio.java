@@ -11,10 +11,13 @@ public interface IReservaServicio {
 	
 	public List<Reserva> traerReservas();
 	
+	List<Reserva> traerReservasPorEstado(boolean estado);
+	
 	public Reserva traerPorId(Long id);
 	
 	public Reserva guardar(Reserva reserva);
 	
 	public void eliminar(Long id);
+
 
 }

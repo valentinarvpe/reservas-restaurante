@@ -66,7 +66,7 @@ export default {
                     this.$router.push("/reservas");
                     this.$emit('rol_user', resp.rol);
                     this.$store.commit('user/setRol', resp.rol)
-                    this.$toast.success(`Bienvenido ${email}]`, {
+                    this.$toast.success(`Bienvenido ${email}`, {
                         icon: 'mdi-check-circle', duration: 2000
                     })
                 } else {

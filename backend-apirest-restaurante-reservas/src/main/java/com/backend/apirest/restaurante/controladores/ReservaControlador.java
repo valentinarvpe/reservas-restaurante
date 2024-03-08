@@ -30,6 +30,11 @@ public class ReservaControlador {
 		return reservaServicio.traerReservas();
 	}
 	
+	@GetMapping("/reservasEstados")
+	public List<Reserva> traeReservas(@RequestParam boolean estado) {
+		return reservaServicio.traerReservasPorEstado(estado);
+	}
+	
 	@PostMapping
 	public void guardarReserva(@RequestBody Reserva reserva) {
 		System.out.println(reserva.getApellidos() +" ." +reserva.getNombres() );
