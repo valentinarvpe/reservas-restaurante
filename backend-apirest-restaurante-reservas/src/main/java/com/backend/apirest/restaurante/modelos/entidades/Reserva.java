@@ -44,7 +44,7 @@ public class Reserva implements Serializable{
     
     @Column(name = "fecha_reserva")
 	@Temporal(TemporalType.DATE)
-    private Date fecha_reserva;
+    private LocalDate fecha_reserva;
     
     @Column(name = "tipo_reserva")
     private String tipo_reserva;

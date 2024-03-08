@@ -1,9 +1,9 @@
 <template>
-  <v-carousel height="500" interval="2600" show-arrows cycle hide-delimiter-background>
+  <v-carousel height="500" interval="2900" show-arrows cycle hide-delimiter-background>
     <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src" cover>
       <div class="d-flex flex-column fill-height align-center text-white">
         <v-spacer></v-spacer>
-        <DialogoComponent :="dialog" />
+        <DialogoComponent :="dialogo" />
       </div>
     </v-carousel-item>
   </v-carousel>
@@ -13,7 +13,7 @@
 export default {
   data() {
     return {
-      dialog: false,
+      dialogo: false,
       name: 'IndexPage',
       items: [
         {
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     abrirModal() {
-      this.dialog = true;
+      this.dialogo = true;
     }
   }
 }

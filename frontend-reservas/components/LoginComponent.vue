@@ -17,16 +17,12 @@
                 </v-card-title>
 
                 <v-card-text>
-                    <v-form ref="form" class="ma-2" v-model="valid" lazy-validation>
-                        <v-text-field 
-                        type="email"
-                        prepend-icon="mdi-email-box" v-model="email" label="E-mail"
-                            required></v-text-field>
+                    <v-form ref="form" class="ma-2" v-model="valido" lazy-validation>
+                        <v-text-field type="email" prepend-icon="mdi-email-box" v-model="email" :rules="emailRules"
+                            label="E-mail" required></v-text-field>
 
-                        <v-text-field 
-                        type="password"
-                        prepend-icon="mdi-lock" v-model="clave" label="Contraseña"
-                            required></v-text-field>
+                        <v-text-field type="password" prepend-icon="mdi-lock" v-model="clave" :rules="claveRules"
+                            label="Contraseña" required></v-text-field>
                     </v-form>
                 </v-card-text>
 
@@ -34,7 +30,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="secondary" block @click="login()">
+                    <v-btn :disabled="!valido" color="secondary" block @click="login()">
                         Aceptar
                     </v-btn>
                 </v-card-actions>
@@ -48,9 +44,16 @@ export default {
     data() {
         return {
             dialog: false,
-            valid: false,
+            valido: true,
             clave: '',
-            email: ''
+            email: '',
+            emailRules: [
+                v => !!v || 'E-mail es obligatorio',
+                v => /.+@.+\..+/.test(v) || 'E-mail debe ser valido',
+            ],
+            claveRules: [
+                v => !!v || 'La contraseña es obligatoria'
+            ]
         }
     },
     methods: {
@@ -71,11 +74,11 @@ export default {
                     })
                 } else {
                     this.$toast.error('Error al autenticarse',
-                    {icon:'mdi-alert-circle', duration: 2000 })
+                        { icon: 'mdi-alert-circle', duration: 2000 })
                 }
             } catch (error) {
                 this.$toast.error('Error al autenticarse',
-                    {icon:'mdi-alert-circle', duration: 2000 })
+                    { icon: 'mdi-alert-circle', duration: 2000 })
             }
 
         }

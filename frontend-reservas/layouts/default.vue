@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" mini-variant=true :clipped="clipped" fixed app
+    <v-navigation-drawer v-model="drawer":clipped="clipped" fixed app
       v-if="rol == 'ADMIN'">
       <v-list>
         <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
@@ -15,7 +15,7 @@
     </v-navigation-drawer>
     <v-app-bar :elevation="6" :clipped-left="clipped" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="rol == 'ADMIN'" />
-      <v-btn fab to="/" color="transparent">
+      <v-btn icon to="/">
         <v-avatar :tile="true" class="ml-4">
           <img :src="require('@/assets/images/logo_hat.png')" alt="logo">
         </v-avatar>
@@ -57,13 +57,13 @@ export default {
   data() {
     return {
       clipped: true,
-      drawer: true,
+      drawer: false,
       rol: '',
       fixed: true,
       items: [
         {
           icon: 'mdi-chart-bubble',
-          title: 'Reservas',
+          title: 'Dashboard',
           to: '/reservas'
         }
       ],

@@ -1,9 +1,5 @@
 <template>
   <div>
-    <v-toolbar flat class="grey lighten-2 ma-0">
-      <v-toolbar-title>Dashboard</v-toolbar-title>
-      <v-divider class="mx-2" inset vertical></v-divider>
-      <v-spacer></v-spacer>
       <v-dialog v-model="dialogo" max-width="800px">
         <v-card>
           <v-card-title class="headline grey lighten-2">
@@ -19,40 +15,48 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-    </v-toolbar>
     <v-card>
       <v-card-title>
         Reservas
         <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn color="success" 
-          icon v-on="on" @click="cargarConfirmadas()">
-          <v-icon>
-            mdi-check-circle
-          </v-icon>
-        </v-btn>
-        </template>
-        <span>Ver todas las confirmadas</span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn color="warning" 
-          icon v-on="on" @click="getReservas()">
-          <v-icon>
-            mdi-alert-circle
-          </v-icon>
-        </v-btn>
-        </template>
-        <span>Ver todas las confirmadas</span>
-      </v-tooltip>
+          <template v-slot:activator="{ on }">
+            <v-btn color="success" icon v-on="on" @click="cargarConfirmadas()">
+              <v-icon>
+                mdi-check-circle
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Ver todas las confirmadas</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn color="warning" icon v-on="on" @click="getReservas()">
+              <v-icon>
+                mdi-alert-circle
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Ver todas las confirmadas</span>
+        </v-tooltip>
         <v-spacer></v-spacer>
         <v-text-field v-model="buscar" append-icon="mdi-magnify" label="Buscar" single-line hide-details></v-text-field>
       </v-card-title>
       <v-card-text>
-        <v-data-table :search="buscar" :headers="cabecera" :items="reservas" class="elevation-1" show-select
+        <v-data-table 
+          :search="buscar"
+          :expanded.sync="expanded"
+           :headers="cabecera" 
+           :items="reservas" 
+           show-expand
+           class="ma-0 elevation-1"
           :loading="loading">
           <template v-slot:loading>
             <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+          </template>
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              Observaciones: {{ item.observaciones }}
+            </td>
           </template>
 
           <template v-slot:items="props">
@@ -96,37 +100,26 @@ export default {
   data: () => ({
     dialogo: false,
     loading: false,
+    expanded:[],
     tituloEdit: '',
-    e1: 1,
     confirmadas: false,
+    path: 'http://localhost:8080/api/reservasEstados?estado=',
     cabecera: [
-      { text: 'Nombres', value: 'nombres' },
-      { text: 'Apellidos', value: 'apellidos' },
-      { text: 'Tipo Doc.', value: 'tipo_documento' },
-      { text: 'Identificacion', value: 'identificacion' },
-      { text: 'E-mail', value: 'email' },
-      { text: 'Fecha reserva', value: 'fecha_reserva' },
-      { text: 'Tipo reserva', value: 'tipo_reserva' },
-      { text: 'Cant. Personas', value: 'cantidad_personas' },
-      { text: 'Observaciones', value: 'observaciones' },
-      { text: 'Estado', value: 'estado' },
-      { text: 'Acciones', value: 'actions', sortable: false, align: 'center' }
+      { text: 'Nombres', value: 'nombres', width: '10%' },
+      { text: 'Apellidos', value: 'apellidos', width: '10%' },
+      { text: 'Doc', value: 'tipo_documento', width: '10%' },
+      { text: 'Id', value: 'identificacion', width: '10%' },
+      { text: 'E-mail', value: 'email', width: '10%' },
+      { text: 'Fecha reserva', value: 'fecha_reserva', width: '15%' },
+      { text: 'Tipo', value: 'tipo_reserva', width: '10%' },
+      { text: 'Cant', value: 'cantidad_personas', width: '8%' },
+      { text: 'Est.', value: 'estado', width: '8%' },
+      { text: 'Editar', value: 'actions', sortable: false, width: '5%' }
     ],
     buscar: '',
     reservas: [],
     editedIndex: -1,
     reservaEditada: {
-      nombres: '',
-      apellidos: '',
-      tipo_documento: 'CC',
-      identificacion: '',
-      email: '',
-      fecha_reserva: '',
-      observaciones: '',
-      tipo_reserva: '',
-      estado: null
-    },
-    defaultItem: {
       nombres: '',
       apellidos: '',
       tipo_documento: 'CC',
@@ -151,12 +144,11 @@ export default {
 
   methods: {
     initialize() {
-      //console.log(reserva.asyncData());
       this.getReservas();
     },
 
     async getReservas() {
-      this.reservas = await this.$axios.$get(`http://localhost:8080/api/reservasEstados?estado=${false}`)
+      this.reservas = await this.$axios.$get(`${this.path}${false}`)
     },
 
     async cargarConfirmadas() {

@@ -21,14 +21,13 @@
                     label="Email"></v-text-field>
             </v-col>
             <v-col cols="12" sm="8" md="6">
-                <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" :nudge-right="40"
-                    transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                    <template v-slot:activator="{ on }">
-                        <v-text-field v-model="reserva.fecha_reserva" label="Fecha de reserva" hint="YYYY/MM/DD"
-                            persistent-hint prepend-icon="mdi-calendar-range" v-on="on">
-                        </v-text-field>
+                <v-menu v-model="menu1" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
+                    offset-y min-width="auto">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-text-field v-model="reserva.fecha_reserva" label="Fecha de reserva"
+                            prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                     </template>
-                    <v-date-picker v-model="reserva.fecha_reserva" no-title @input="menu1 = false"></v-date-picker>
+                    <v-date-picker v-model="reserva.fecha_reserva" @input="menu1 = false"></v-date-picker>
                 </v-menu>
             </v-col>
             <v-col cols="12" sm="8" md=8>
@@ -139,7 +138,7 @@ export default {
                     this.$router.push('/reservas');
                 } catch (error) {
                     this.$toast.error('Error al actualizar',
-                        { icon:'mdi-alert-circle', duration: 2000 })
+                        { icon: 'mdi-alert-circle', duration: 2000 })
                 }
             } else {
                 try {
@@ -152,7 +151,7 @@ export default {
                     this.$router.push('/');
                 } catch (error) {
                     this.$toast.error('Error al guardar',
-                        { icon:'mdi-alert-circle', duration: 2000 })
+                        { icon: 'mdi-alert-circle', duration: 2000 })
                 }
 
             }
@@ -169,7 +168,7 @@ export default {
                     })
             } catch (error) {
                 this.$toast.error('Error al confirmar',
-                    {  icon:'mdi-alert-circle', duration: 2000 })
+                    { icon: 'mdi-alert-circle', duration: 2000 })
             }
             this.$emit('cerrado', false);
 
