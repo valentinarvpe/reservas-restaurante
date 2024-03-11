@@ -51,7 +51,6 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/reservas").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/api/reservas/{id}", "/api/reservas/actualizaEstado/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/api/correo/enviar").hasRole("ADMIN")
-                            //    .requestMatchers(HttpMethod.DELETE, "/api/clientes/{id}").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))

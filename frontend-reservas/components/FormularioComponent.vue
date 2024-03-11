@@ -65,7 +65,6 @@ export default {
     },
     data() {
         return {
-            //date: new Date().toISOString().substr(0, 10),
             menu1: false,
             titulo: 'Guardar',
             reserva: {
@@ -110,7 +109,6 @@ export default {
         async creaReserva() {
             const id = this.reserva.id
             if (id != null) {
-                console.log();
                 formulario.actualizar(id, this.reserva)
                     .then(resp => {
                         this.$toast.success(`Actualizado correctamente`, {
