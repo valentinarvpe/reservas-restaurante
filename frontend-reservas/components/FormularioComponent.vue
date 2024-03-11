@@ -56,15 +56,16 @@
 </template>
 
 <script>
+import formulario from '../models/formulario'
 export default {
+    model: formulario,
     props: {
         tituloEdit: String,
         reservaEditada: Object
     },
     data() {
         return {
-            date: new Date().toISOString().substr(0, 10),
-            dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+            //date: new Date().toISOString().substr(0, 10),
             menu1: false,
             titulo: 'Guardar',
             reserva: {
@@ -77,24 +78,13 @@ export default {
                 observaciones: '',
                 tipo_reserva: ''
             },
-            tipos_documentos: [
-                { text: 'Cédula', value: 'CC' },
-                { text: 'Nit', value: 'NIT' }
-            ],
-            tipos_reservas: ['Cena', 'Almuerzo', 'Onces', 'Cumpleaños', 'Ocasión especial'],
+            tipos_documentos: [],
+            tipos_reservas: [],
             rules: []
-        }
-    },
-    computed: {
-        computedDateFormatted() {
-            return this.formatDate(this.date)
         }
     },
 
     watch: {
-        date(val) {
-            this.dateFormatted = this.formatDate(this.date)
-        },
         reservaEditada() {
             this.reserva = this.reservaEditada.id > 0 ? this.reservaEditada : this.reserva
             this.titulo = this.tituloEdit
@@ -111,44 +101,37 @@ export default {
             this.titulo = this.tituloEdit != '' ? "Actualizar" : "Guardar"
         }
     },
+    mounted() {
+        this.tipos_documentos = formulario.tipos_documentos;
+        this.tipos_reservas = formulario.tipos_reservas;
+    },
 
     methods: {
-        formatDate(date) {
-            if (!date) return null
-            const [year, month, day] = date.split('-')
-            return `${month}/${day}/${year}`
-        },
-
-        parseDate(date) {
-            if (!date) return null
-            const [month, day, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
-
         async creaReserva() {
             const id = this.reserva.id
             if (id != null) {
-                try {
-                    let resp = await this.$axios.$put(`http://localhost:8080/api/reservas/${id}`, this.reserva);
-                    this.$toast.success(`Actualizado correctamente ${resp}`, {
-                        icon: {
-                            name: 'mdi-check-circle'
-                        }, duration: 2000
+                console.log();
+                formulario.actualizar(id, this.reserva)
+                    .then(resp => {
+                        this.$toast.success(`Actualizado correctamente`, {
+                            icon: 'mdi-check-circle', duration: 2000
+                        })
+                        this.$router.push('/dashboard');
+                    }).catch(() => {
+                        this.$toast.error('Error al actualizar',
+                            { icon: 'mdi-alert-circle', duration: 2000 })
                     })
-                    this.$router.push('/reservas');
-                } catch (error) {
-                    this.$toast.error('Error al actualizar',
-                        { icon: 'mdi-alert-circle', duration: 2000 })
-                }
             } else {
                 try {
-                    let resp = await this.$axios.$post('http://localhost:8080/api', this.reserva);
-                    this.$toast.success(`Guardado correctamente ${resp}`, {
-                        icon: {
-                            name: 'mdi-check-circle'
-                        }, duration: 2000
-                    })
-                    this.$router.push('/');
+                    formulario.guardar(this.reserva)
+                        .then(resp => {
+                            console.log(resp);
+                            this.$toast.success("Guardado correctamente", {
+                                icon: 'mdi-check-circle', duration: 2000
+                            })
+                            this.$router.push('/');
+                        })
+
                 } catch (error) {
                     this.$toast.error('Error al guardar',
                         { icon: 'mdi-alert-circle', duration: 2000 })
@@ -159,19 +142,24 @@ export default {
         },
 
         async confirmarReserva(id) {
-            let estado = true;
+            this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
             try {
-                let resp = await this.$axios.$put(`http://localhost:8080/api/reservasEstado/${id}?estado=${estado}`)
-                this.$toast.success('Confirmada correctamente',
-                    {
-                        icon: 'mdi-check-circle', duration: 2000
+                await this.$axios.$put(`/api/reservas/actualizaEstado/${id}?estado=${true}`)
+                    .then(resp => {
+                        this.$toast.success('Confirmada correctamente', { icon: 'mdi-check-circle', duration: 2000 })
                     })
+                this.$toast.success('Enviando correo', { icon: 'mdi-send', duration: 2500 })
+                await this.$axios.$post("/api/correo/enviar", this.reserva)
+                    .then(resp => {
+                        this.$toast.success('Correo de confirmación enviado',
+                            { icon: 'mdi-check-circle', duration: 2000 })
+                    })
+
             } catch (error) {
-                this.$toast.error('Error al confirmar',
+                this.$toast.error('Error al enviar correo',
                     { icon: 'mdi-alert-circle', duration: 2000 })
             }
             this.$emit('cerrado', false);
-
         }
     }
 }

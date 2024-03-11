@@ -1,6 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  router: {
+   // middleware: ['auth']
+  },
   loading: '~/components/LoadingBar.vue',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -17,10 +20,10 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/logo_hat.png' }
     ]
   },
-  
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/main.css'
@@ -39,10 +42,22 @@ export default {
     '@nuxtjs/vuetify',
   ],
 
+  ssr: true,
+  target: 'server',
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/toast'],
-  
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/toast',
+    '@nuxtjs/auth-next',
+    'cookie-universal-nuxt',
+  ],
+
   axios: {
+    baseURL: 'http://localhost:8080', // URL base de tu API
+    withCredentials: true,
+    headers: {
+      Authorization: process.env.TOKEN,
+    },
     // proxy: true
   },
 
@@ -57,7 +72,7 @@ export default {
           type: 'error',
           icon: 'mdi-check',
           theme: 'outline',
-          duration: 2000 
+          duration: 2000
         }
       }
     ]

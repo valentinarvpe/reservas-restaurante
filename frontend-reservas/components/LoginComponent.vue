@@ -58,29 +58,31 @@ export default {
     },
     methods: {
         async login() {
-            const ENDPOINT_PATH = "http://localhost:8080/";
-            try {
-                let email = this.email;
-                let clave = this.clave;
-                const user = { email, clave };
-                const resp = await this.$axios.$post(ENDPOINT_PATH + "login", user);
-                if (resp.mensaje == 'Ok') {
+            let email = this.email;
+            let clave = this.clave;
+            const user = { email, clave };
+            await this.$axios.$post("/login", user).
+                then(resp => {
+                    this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + resp.token;
+                    this.$emit('rol_user', true);
+                    this.$cookies.set('user', resp, {
+                        path: '/'
+                    })
+                    this.$cookies.set('isAuth', true, {
+                        path: '/'
+                    })
+                    window.localStorage.setItem('isAuth', true);
+                    window.localStorage.setItem('token', resp.token);
                     this.dialog = false;
-                    this.$router.push("/reservas");
-                    this.$emit('rol_user', resp.rol);
-                    this.$store.commit('user/setRol', resp.rol)
-                    this.$toast.success(`Bienvenido ${email}`, {
+                    this.$router.push("/dashboard");
+                    this.$toast.success(resp.message, {
                         icon: 'mdi-check-circle', duration: 2000
                     })
-                } else {
-                    this.$toast.error('Error al autenticarse',
+                })
+                .catch(()=>
+                    this.$toast.error('Error al autenticarse ',
                         { icon: 'mdi-alert-circle', duration: 2000 })
-                }
-            } catch (error) {
-                this.$toast.error('Error al autenticarse',
-                    { icon: 'mdi-alert-circle', duration: 2000 })
-            }
-
+                );
         }
     }
 }

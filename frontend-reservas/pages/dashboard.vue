@@ -30,7 +30,7 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn color="warning" icon v-on="on" @click="getReservas()">
+            <v-btn color="warning" icon v-on="on" @click="cargarDefault()">
               <v-icon>
                 mdi-alert-circle
               </v-icon>
@@ -66,7 +66,6 @@
             <td class="text-xs-right">{{ props.item.fecha_reserva }}</td>
             <td class="text-xs-right">{{ props.item.cantidad_personas }}</td>
           </template>
-
           <template v-slot:item.estado="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
@@ -95,15 +94,17 @@
 </template>
 
 <script>
+import reserva from '../models/reserva';
+
 export default {
-  middleware: 'redirectToRow',
+  model: reserva,
+  middleware: 'redirecciona',
   data: () => ({
     dialogo: false,
+    auth: false,
     loading: false,
     expanded:[],
     tituloEdit: '',
-    confirmadas: false,
-    path: 'http://localhost:8080/api/reservasEstados?estado=',
     cabecera: [
       { text: 'Nombres', value: 'nombres', width: '10%' },
       { text: 'Apellidos', value: 'apellidos', width: '10%' },
@@ -137,30 +138,34 @@ export default {
       val || this.cerrar()
     }
   },
+  beforeMount() {
+    this.auth = localStorage.getItem("isAuth");
+    if (this.auth) {
+      //this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token") ;
+      this.cargarDefault();
+    } else {
+      this.$router.push('/');
+    }
+  },
 
   created() {
-    this.initialize()
+
   },
 
   methods: {
-    initialize() {
-      this.getReservas();
-    },
-
-    async getReservas() {
-      this.reservas = await this.$axios.$get(`${this.path}${false}`)
+    async cargarDefault() {
+      this.reservas = await reserva.getReservas(false);
     },
 
     async cargarConfirmadas() {
-      this.confirmadas = true;
-      this.reservas = await this.$axios.$get(`http://localhost:8080/api/reservasEstados?estado=${true}`)
+      this.reservas = await await reserva.getReservas(true);
     },
 
     editar(item) {
-      this.editedIndex = this.reservas.indexOf(item)
-      this.reservaEditada = Object.assign({}, item)
-      this.tituloEdit = "Actualizar"
-      this.dialogo = true
+      this.editedIndex = this.reservas.indexOf(item);
+      this.reservaEditada = Object.assign({}, item);
+      this.tituloEdit = "Actualizar";
+      this.dialogo = true;
     },
 
     cerrar() {
@@ -169,16 +174,16 @@ export default {
     },
 
     recibirEvento(value) {
-      this.dialogo = value;
       this.refrescar();
+      this.dialogo = value;
     },
 
     refrescar() {
+      this.cargarDefault();
       this.loading = true;
-      this.getReservas();
       setTimeout(() => {
         this.loading = false
-      }, 1000)
+      }, 900)
     }
   }
 }

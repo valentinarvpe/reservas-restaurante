@@ -19,7 +19,7 @@ import com.backend.apirest.restaurante.modelos.servicios.ReservaServicio;
 
 @CrossOrigin(origins = "http://localhost:3000", originPatterns = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/reservas")
 public class ReservaControlador {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class ReservaControlador {
 		return reservaServicio.traerReservas();
 	}
 	
-	@GetMapping("/reservasEstados")
+	@GetMapping("/porEstado")
 	public List<Reserva> traeReservas(@RequestParam boolean estado) {
 		return reservaServicio.traerReservasPorEstado(estado);
 	}
@@ -47,7 +47,7 @@ public class ReservaControlador {
 			
 	}
 	
-	@PutMapping("/reservas/{id}")
+	@PutMapping("/{id}")
 	public void actualizarReserva(@RequestBody Reserva reserva, @PathVariable Long id) {
 		try {
 			Reserva reservaExistente =  reservaServicio.traerPorId(id);
@@ -61,7 +61,7 @@ public class ReservaControlador {
 		}
 	}
 	
-	@PutMapping("/reservasEstado/{id}")
+	@PutMapping("/actualizaEstado/{id}")
 	public void actualizarEstadoReserva(@PathVariable Long id, @RequestParam boolean estado) {
 		try {
 			Reserva reservaExistente =  reservaServicio.traerPorId(id);

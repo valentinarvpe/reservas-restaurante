@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <html xmlns:th="http://www.thymeleaf.org">
+    <title>Correo Electrónico</title>
+</head>
+
+<body
+    style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; 
+    border-radius: 5px;">
+
+        <h1 style="text-align: center; color:rgb(255, 172, 47)" th:text="'¡Hola ' + ${nombre} + '!'"></h1>
+
+        <h3 th:text="'Se ha confirmado su reserva con los siguientes datos: '"></h3>
+        <p th:text="'Fecha de reserva ' + ${fechareserva}"></p>
+        <p th:text="'Tipo de reserva ' + ${tiporeserva}"></p>
+        <p th:text="'Cantidad de personas ' + ${cantidadpersonas}"></p>
+
+		<!--
+        <div style="display: flex; justify-content: center;">
+            <img src=require(@/correo.png) alt="Correo abierto" width="300" height="200" border-radius="50%" >
+        </div>
+  		-->    
+        <p>Saludos,</p>
+        <p>¡Chef hat!</p>
+
+    </div>
+
+</body>
+
+</html>

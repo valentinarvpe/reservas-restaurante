@@ -1,0 +1,19 @@
+services:
+  vue_app:
+    container_name: vue-app
+    image: pee-vue_app:1.0.0
+    build: ./frontend-reservas/
+    ports:
+      - 3000:3000
+    depends_on:
+      - java_app
+
+  java_app:
+   container_name: java_app
+   image: pee-java_app:1.0.0
+   ports:
+    - 8080:8080
+   environment:
+    - DATABASE_URL=jdbc:postgresql://r-restaurante.c9s4k4ecoaea.us-east-2.rds.amazonaws.com:5432/r_restaurante
+    - DATABASE_USERNAME=postgres
+    - DATABASE_PASSWORD=sasa1234

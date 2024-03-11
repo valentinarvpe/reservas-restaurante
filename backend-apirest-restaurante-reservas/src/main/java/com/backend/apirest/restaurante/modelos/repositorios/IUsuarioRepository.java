@@ -9,6 +9,7 @@ import com.backend.apirest.restaurante.modelos.entidades.Usuario;
 
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long>{
+	boolean existsByEmail(String email);
 
 	Optional<Usuario> findByEmail(String email);
 }

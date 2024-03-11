@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer":clipped="clipped" fixed app
-      v-if="rol == 'ADMIN'">
+    <v-navigation-drawer v-model="drawer" :clipped="clipped" fixed app v-if="auth">
       <v-list>
         <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
           <v-list-item-action>
@@ -14,7 +13,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :elevation="6" :clipped-left="clipped" app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="rol == 'ADMIN'" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="auth" />
       <v-btn icon to="/">
         <v-avatar :tile="true" class="ml-4">
           <img :src="require('@/assets/images/logo_hat.png')" alt="logo">
@@ -24,19 +23,19 @@
       <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn icon to="/registro" v-if="rol != 'ADMIN'" v-on="on">
+          <v-btn icon to="/registro" v-if="!auth" v-on="on">
             <v-icon>mdi-table-chair</v-icon>
           </v-btn>
         </template>
         <span>Reservar</span>
       </v-tooltip>
-      <v-btn v-if="rol == 'ADMIN'" color="secondary" rounded outlined dark @click="salir()">
+      <v-btn v-if="auth" color="secondary" rounded outlined dark @click="salir()">
         Salir
         <v-icon class="ml-2">
           mdi-logout
         </v-icon>
       </v-btn>
-      <LoginComponent v-if="rol != 'ADMIN'" @rol_user="recibirEvento">
+      <LoginComponent v-if="!auth" @rol_user="recibirEvento">
       </LoginComponent>
     </v-app-bar>
     <v-main>
@@ -57,35 +56,41 @@ export default {
   data() {
     return {
       clipped: true,
+      auth: false,
       drawer: false,
-      rol: '',
       fixed: true,
       items: [
         {
           icon: 'mdi-chart-bubble',
           title: 'Dashboard',
-          to: '/reservas'
+          to: '/dashboard'
         }
       ],
-      title: 'Chef Hat'
+      title: 'Hat'
     }
   },
 
-  watch: {
-    rol(val) {
-      console.log(val);
+  watch:{
+    auth : function (val) {
+      this.auth = val
     }
+  },
+
+  mounted() {
+    this.auth = this.$cookies.get('isAuth');
   },
 
   methods: {
     recibirEvento(value) {
-      this.rol = value;
-      this.$router.push('/reservas');
+      this.auth  = value;
+      this.$router.push('/dashboard');
     },
 
     salir() {
-      this.rol = '';
-      this.$router.push('/');
+      window.localStorage.setItem('isAuth', false);
+      localStorage.removeItem("token");
+      this.$cookies.removeAll()
+      this.$nuxt.$router.go();
     }
   }
 }
