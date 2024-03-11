@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.apirest.restaurante.modelos.entidades.Reserva;
 import com.backend.apirest.restaurante.modelos.servicios.ReservaServicio;
 
-@CrossOrigin(origins = "http://localhost:3000", originPatterns = "*")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/reservas")
 public class ReservaControlador {

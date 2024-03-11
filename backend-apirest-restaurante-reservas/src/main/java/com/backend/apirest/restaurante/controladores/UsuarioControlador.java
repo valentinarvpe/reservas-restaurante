@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.backend.apirest.restaurante.modelos.entidades.Usuario;
 import com.backend.apirest.restaurante.modelos.servicios.UsuarioServicio;
 
-@CrossOrigin(origins = "http://localhost:3000", originPatterns = "*")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 public class UsuarioControlador {

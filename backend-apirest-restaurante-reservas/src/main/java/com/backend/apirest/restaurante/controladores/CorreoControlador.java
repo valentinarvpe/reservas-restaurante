@@ -18,7 +18,7 @@ import com.backend.apirest.restaurante.modelos.servicios.CorreoService;
 
 import jakarta.mail.MessagingException;
 
-@CrossOrigin(origins = "http://localhost:3000", originPatterns = "*")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/correo")
 public class CorreoControlador {
