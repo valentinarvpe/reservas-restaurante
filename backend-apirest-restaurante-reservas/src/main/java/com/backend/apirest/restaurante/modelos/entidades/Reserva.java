@@ -2,8 +2,6 @@ package com.backend.apirest.restaurante.modelos.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

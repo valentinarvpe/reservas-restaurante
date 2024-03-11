@@ -1,10 +1,5 @@
 package com.backend.apirest.restaurante.modelos.servicios;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
 import com.backend.apirest.restaurante.modelos.entidades.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

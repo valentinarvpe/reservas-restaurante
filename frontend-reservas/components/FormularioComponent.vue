@@ -116,6 +116,7 @@ export default {
                         this.$toast.success(`Actualizado correctamente`, {
                             icon: 'mdi-check-circle', duration: 2000
                         })
+                        this.$emit('cerrado', false);
                         this.$router.push('/dashboard');
                     }).catch(() => {
                         this.$toast.error('Error al actualizar',

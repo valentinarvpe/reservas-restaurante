@@ -53,7 +53,7 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://localhost:8080', // URL base de tu API
+    baseURL: import.meta.env.API_URL, // URL base de tu API
     withCredentials: true,
     headers: {
       Authorization: process.env.TOKEN,
