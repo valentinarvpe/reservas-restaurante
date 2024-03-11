@@ -1,10 +1,11 @@
+version: '3.8'
 services:
   vue_app:
     container_name: vue_app
-    image: pee-vue_app:1.0.0
+    image: 'pee-vue_app:1.0.0'
     build: ./frontend-reservas
     ports:
-    - 80:3000
+      - 80:3000
     environment:
       API_URL: http://157.245.127.16:8080
     depends_on:
