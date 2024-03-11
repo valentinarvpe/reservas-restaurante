@@ -33,10 +33,6 @@ export default {
     },
     methods: {
         login() {
-            // Aquí puedes realizar la lógica de inicio de sesión, por ejemplo, enviar una solicitud a tu backend para autenticar al usuario
-            console.log('Correo electrónico:', this.email);
-            console.log('Contraseña:', this.password);
-            // Después de autenticar al usuario, puedes redirigirlo a otra página
             this.$router.push('/dashboard');
         }
     }

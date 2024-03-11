@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-
+require('dotenv').config()
 export default {
   router: {
    // middleware: ['auth']
@@ -58,7 +58,7 @@ export default {
   ],
 
   axios: {
-    baseURL: import.meta.env.API_URL, // URL base de tu API
+    baseURL: process.env.API_URL || 'http://localhost:8080',// URL base de tu API
     withCredentials: true,
     headers: {
       Authorization: process.env.TOKEN,
