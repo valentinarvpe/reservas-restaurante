@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --host 0.0.0.0 --disable-host-check",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "nuxt start --host 0.0.0.0 --disable-host-check",
     "generate": "nuxt generate"
   },
   "dependencies": {

@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  vue_app:
+    container_name: vue_app
+    image: 'pee-vue_app:1.0.0'
+    build: ./frontend-reservas
+    ports:
+      - 80:3000
+    environment:
+      API_URL: 'http://localhost:8080'
+    depends_on:
+      - java_app
+  java_app:
+    container_name: java_app
+    image: 'pee-java_app:1.0.0'
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=jdbc:postgresql://r-restaurante.c9s4k4ecoaea.us-east-2.rds.amazonaws.com:5432/r_restaurante
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=sasa1234
