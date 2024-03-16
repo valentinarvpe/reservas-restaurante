@@ -7,7 +7,7 @@ services:
       context: ./frontend-reservas
       dockerfile: Dockerfile.prod
       args:
-        API_URL: http://localhost:8080
+        API_URL: http://104.236.11.151:8080
 
     ports:
       - 80:80

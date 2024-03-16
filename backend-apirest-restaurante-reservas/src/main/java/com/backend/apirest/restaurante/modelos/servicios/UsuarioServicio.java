@@ -61,6 +61,11 @@ public class UsuarioServicio implements IUsuarioServicio{
 	}
 
 	@Override
+	public List<Usuario> traeClientes() {
+		return null;
+	}
+
+	@Override
 	public Usuario traePorEmaileIdentificacion(String email, String identificacion) {
 		return usuarioRepository.findByEmailAndIdentificacion(email, identificacion).orElse(null);
 	}

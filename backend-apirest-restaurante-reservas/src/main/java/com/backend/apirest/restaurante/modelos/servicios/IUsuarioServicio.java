@@ -16,5 +16,7 @@ public interface IUsuarioServicio {
 	
 	public Usuario traePorEmail(String email);
 
+	public List<Usuario> traeClientes();
+
 	public Usuario traePorEmaileIdentificacion(String email, String identificacion);
 }

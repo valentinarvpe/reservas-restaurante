@@ -35,7 +35,6 @@ public class CorreoControlador {
 			ex.printStackTrace();
 			return ResponseEntity.internalServerError().body("Error al enviar correo");
 		}
-
 	}
 
 	@GetMapping("/images/{imageName}")
