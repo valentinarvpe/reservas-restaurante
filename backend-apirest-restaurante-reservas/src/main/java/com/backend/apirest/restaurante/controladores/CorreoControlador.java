@@ -29,7 +29,7 @@ public class CorreoControlador {
 	@PostMapping("/enviar")
 	public ResponseEntity<String> enviar(@RequestBody Reserva reserva) throws MessagingException {
 		try {
-			correoServicio.sendEmailFromTemplate(reserva);
+			correoServicio.enviarEmailconTemplate(reserva);
 			return ResponseEntity.ok("Enviado correctamente");
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -37,7 +37,6 @@ public class CorreoControlador {
 		}
 
 	}
-
 
 	@GetMapping("/images/{imageName}")
 	public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws IOException {

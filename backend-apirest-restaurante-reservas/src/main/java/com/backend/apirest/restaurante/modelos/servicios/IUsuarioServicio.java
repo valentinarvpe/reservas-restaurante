@@ -12,7 +12,9 @@ public interface IUsuarioServicio {
 	
 	public Usuario traerPorId(Long id);
 	
-	public Usuario guardar(Usuario reserva);
+	public Usuario guardar(Usuario usuario);
 	
 	public Usuario traePorEmail(String email);
+
+	public Usuario traePorEmaileIdentificacion(String email, String identificacion);
 }

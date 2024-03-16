@@ -3,11 +3,14 @@ services:
   vue_app:
     container_name: vue_app
     image: 'pee-vue_app:1.0.0'
-    build: ./frontend-reservas
+    build:
+      context: ./frontend-reservas
+      dockerfile: Dockerfile.prod
+      args:
+        API_URL: http://localhost:8080
+
     ports:
-      - 80:3000
-    environment:
-      API_URL: http://157.245.127.16:8080
+      - 80:80
     depends_on:
       - java_app
   java_app:

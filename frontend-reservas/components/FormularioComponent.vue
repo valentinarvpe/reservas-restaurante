@@ -1,44 +1,49 @@
 <template>
     <v-form @submit.prevent class="ma-3">
         <v-row>
-            <v-col cols="12" sm="8" md="6">
-                <v-text-field prepend-icon="mdi-account" v-model="reserva.nombres" :rules="rules"
+            <v-col cols="12" sm="6" md="6">
+                <v-text-field prepend-icon="mdi-account" v-model="reserva.usuario.nombres" :rules="rules"
                     label="Nombre"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="8" md="6">
-                <v-text-field v-model="reserva.apellidos" :rules="rules" label="Apellidos"></v-text-field>
+            <v-col cols="12" sm="6" md="6">
+                <v-text-field v-model="reserva.usuario.apellidos" :rules="rules" label="Apellidos"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="8" md="4">
+            <v-col cols="12" sm="4" md="4">
                 <v-select :items="tipos_documentos" item-text="text" item-value="value"
-                    prepend-icon="mdi-card-account-details" v-model="reserva.tipo_documento" :rules="rules"
+                    prepend-icon="mdi-card-account-details" v-model="reserva.usuario.tipo_documento" :rules="rules"
                     label="Tipo de documento"></v-select>
             </v-col>
             <v-col cols="12" sm="8" md="8">
-                <v-text-field v-model="reserva.identificacion" :rules="rules" label="Identificación"></v-text-field>
+                <v-text-field v-model="reserva.usuario.identificacion" :rules="rules"
+                    label="Identificación"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="8" md="6">
-                <v-text-field prepend-icon="mdi-email-box" v-model="reserva.email" :rules="rules"
+            <v-col cols="12" sm="6" md="6">
+                <v-text-field prepend-icon="mdi-email-box" v-model="reserva.usuario.email" :rules="rules"
                     label="Email"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="8" md="6">
+            <v-col cols="12" sm="6" md="6">
                 <v-menu v-model="menu1" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
                     offset-y min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-text-field v-model="reserva.fecha_reserva" label="Fecha de reserva"
+                        <v-text-field 
+                        locale="ES"
+                        v-model="reserva.fechaReserva" label="Fecha de reserva"
                             prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                     </template>
-                    <v-date-picker v-model="reserva.fecha_reserva" @input="menu1 = false"></v-date-picker>
+                    <v-date-picker v-model="reserva.fechaReserva" @input="menu1 = false"></v-date-picker>
                 </v-menu>
             </v-col>
             <v-col cols="12" sm="8" md=8>
-                <v-select :items="tipos_reservas" prepend-icon="mdi-silverware" v-model="reserva.tipo_reserva"
+                <v-select :items="tipos_reservas" prepend-icon="mdi-silverware" v-model="reserva.tipoReserva"
                     :rules="rules" label="Tipo de reserva"></v-select>
             </v-col>
-            <v-col cols="12" sm="8" md=4>
-                <v-text-field prepend-icon="mdi-account-group" v-model="reserva.cantidad_personas" :rules="rules"
+            <v-col cols="12" sm="4" md=4>
+                <v-text-field
+                    type="number"
+                    prepend-icon="mdi-account-group" v-model="reserva.cantidadPersonas" :rules="rules"
                     label="Cantidad de personas"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="8" md=12>
+            <v-col cols="12" sm="12" md=12>
                 <v-textarea rows="2" prepend-icon="mdi-comment" v-model="reserva.observaciones" :rules="rules"
                     label="Observaciones"></v-textarea>
             </v-col>
@@ -68,18 +73,20 @@ export default {
             menu1: false,
             titulo: 'Guardar',
             reserva: {
-                nombres: '',
-                apellidos: '',
-                tipo_documento: 'CC',
-                identificacion: '',
-                email: '',
-                fecha_reserva: new Date().toISOString().substr(0, 10),
+                usuario: {
+                    nombres: '',
+                    apellidos: '',
+                    tipo_documento: 'CC',
+                    identificacion: '',
+                    email: '',
+                },
+                fechaReserva: new Date().toISOString().substr(0, 10),
                 observaciones: '',
-                tipo_reserva: ''
+                tipoReserva: ''
             },
             tipos_documentos: [],
             tipos_reservas: [],
-            rules: []
+            rules: [v => !!v || 'Campo obligatorio']
         }
     },
 
@@ -124,7 +131,6 @@ export default {
                 try {
                     formulario.guardar(this.reserva)
                         .then(resp => {
-                            console.log(resp);
                             this.$toast.success("Guardado correctamente", {
                                 icon: 'mdi-check-circle', duration: 2000
                             })

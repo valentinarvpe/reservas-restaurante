@@ -38,17 +38,19 @@ public class UsuarioServicio implements IUsuarioServicio{
 	@Override
 	public Usuario guardar(Usuario usuario) {
 			Optional<Rol> OptionalRolUsuario = rolRepository.findByNombre("ROLE_USER");
+			Optional<Rol> OptionalRolCliente = rolRepository.findByNombre("ROLE_CLIENT");
 			List<Rol> roles = new ArrayList<>();
 			OptionalRolUsuario.ifPresent(roles::add);
+			OptionalRolCliente.ifPresent(roles::add);
 
 			if (usuario.isAdmin()) {
 				Optional<Rol> optionalRolAdmin =rolRepository.findByNombre("ROLE_ADMIN");
 				optionalRolAdmin.ifPresent(roles::add);
+				String contrasenaCodificada = passwordEncoder.encode(usuario.getClave());
+				usuario.setClave(contrasenaCodificada);
 			}
 
 			usuario.setRoles(roles);
-			String contrasenaCodificada = passwordEncoder.encode(usuario.getClave());
-			usuario.setClave(contrasenaCodificada);
 			return usuarioRepository.save(usuario);
 
 	}
@@ -57,7 +59,11 @@ public class UsuarioServicio implements IUsuarioServicio{
 	public Usuario traePorEmail(String email) {
 		return usuarioRepository.findByEmail(email).orElse(null);
 	}
-	
+
+	@Override
+	public Usuario traePorEmaileIdentificacion(String email, String identificacion) {
+		return usuarioRepository.findByEmailAndIdentificacion(email, identificacion).orElse(null);
+	}
 
 
 }

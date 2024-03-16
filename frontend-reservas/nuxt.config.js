@@ -58,8 +58,8 @@ export default {
   ],
 
   axios: {
-    //baseURL: process.env.API_URL || 'http://localhost:8080',// URL base de tu API
-    baseURL: 'http://157.245.127.16:8080',
+    baseURL: process.env.API_URL || 'http://localhost:8080',// URL base de tu API
+    //baseURL: 'http://157.245.127.16:8080',
     withCredentials: true,
     headers: {
       Authorization: process.env.TOKEN,

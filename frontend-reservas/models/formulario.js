@@ -1,9 +1,5 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'http://157.245.127.16:8080';
-/*if (process.client) {
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
-}
-*/
+axios.defaults.baseURL = process.env.API_URL || 'http://localhost:8080';
 export default {
     tipos_documentos: [
         { text: 'Cédula', value: 'CC' },

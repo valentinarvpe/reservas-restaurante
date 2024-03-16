@@ -19,19 +19,19 @@ public class CorreoService {
 	@Autowired
 	private TemplateEngine templateEngine;
 
-	public void sendEmailFromTemplate(Reserva reserva) throws MessagingException {
+	public void enviarEmailconTemplate(Reserva reserva) throws MessagingException {
 		
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setTo(reserva.getEmail());
+			helper.setTo(reserva.getUsuario().getEmail());
 			helper.setSubject("Confirmación de reserva");
 			
 			Context context = new Context();
-			context.setVariable("nombre", reserva.getNombres());
-			context.setVariable("fechareserva", reserva.getFecha_reserva());
-			context.setVariable("cantidadpersonas", reserva.getCantidad_personas());
-			context.setVariable("tiporeserva", reserva.getTipo_reserva());
+			context.setVariable("nombre", reserva.getUsuario().getNombres());
+			context.setVariable("fechareserva", reserva.getFechaReserva());
+			context.setVariable("cantidadpersonas", reserva.getCantidadPersonas());
+			context.setVariable("tiporeserva", reserva.getTipoReserva());
 			String contentHTML = templateEngine.process("reserva", context);
 			
 			helper.setText(contentHTML, true);

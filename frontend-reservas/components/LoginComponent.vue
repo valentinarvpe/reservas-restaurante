@@ -71,6 +71,7 @@ export default {
                     this.$cookies.set('isAuth', true, {
                         path: '/'
                     })
+                    this.$store.commit('user/setIsAuth', true);
                     window.localStorage.setItem('isAuth', true);
                     window.localStorage.setItem('token', resp.token);
                     this.dialog = false;

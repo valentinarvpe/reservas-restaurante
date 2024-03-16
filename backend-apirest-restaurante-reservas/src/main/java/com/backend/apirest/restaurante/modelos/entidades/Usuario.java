@@ -18,13 +18,14 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+    @Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
     @Size(min=2, max=20)
-    @Column(name = "nombre_usuario")
-    private String nombreUsuario;
+    @Column(name = "nombres")
+    private String nombres;
 
     @NotNull
     @Email
@@ -32,11 +33,23 @@ public class Usuario implements Serializable {
     @Column(name = "email", unique=true)
     private String email;
 
-    @NotNull
-    @NotBlank
-    @Size(min=5, max=60)
     @Column(name = "clave")
     private String clave;
+
+    @NotEmpty
+    @Size(min=2, max=100)
+    @Column(name = "apellidos")
+    private String apellidos;
+
+    @NotEmpty
+    @Size(min=2, max=10)
+    @Column(name = "tipo_documento")
+    private String tipo_documento;
+
+    @NotEmpty
+    @Size(min=2, max=20)
+    @Column(name = "identificacion")
+    private String identificacion;
     
     @Column(name = "activo")
     private boolean activo = true;

@@ -29,6 +29,14 @@
         </template>
         <span>Reservar</span>
       </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon to="/login" v-if="!auth" v-on="on">
+            <v-icon>mdi-login</v-icon>
+          </v-btn>
+        </template>
+        <span>Login</span>
+      </v-tooltip>
       <v-btn v-if="auth" color="secondary" rounded outlined dark @click="salir()">
         Salir
         <v-icon class="ml-2">
@@ -37,6 +45,12 @@
       </v-btn>
       <LoginComponent v-if="!auth" @rol_user="recibirEvento">
       </LoginComponent>
+      <v-icon color="success" v-if="authComputado">
+          mdi-heart-circle
+        </v-icon>
+        <v-icon color="warning" v-if="!authComputado">
+          mdi-heart-circle
+        </v-icon>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -64,15 +78,35 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Dashboard',
           to: '/dashboard'
+        },
+        {
+          icon: 'mdi-account-group',
+          title: 'Clientes',
+          to: '/clientes'
         }
       ],
       title: 'Hat'
     }
   },
 
-  watch:{
-    auth : function (val) {
+  watch: {
+    auth: function (val) {
       this.auth = val
+      if (this.auth == undefined) {
+        this.auth = this.$cookies.get('isAuth');
+      }
+    }
+  },
+
+  computed: {
+    authComputado() {
+      if (this.$cookies.get('isAuth')) {
+        this.auth = this.$cookies.get('isAuth'); 
+        return this.$cookies.get('isAuth');
+      } else {
+        this.auth = this.$store.state.user.isAuth; 
+        return this.$store.state.user.isAuth
+      }
     }
   },
 
@@ -82,8 +116,7 @@ export default {
 
   methods: {
     recibirEvento(value) {
-      this.auth  = value;
-      this.$router.push('/dashboard');
+      this.auth = value;
     },
 
     salir() {
