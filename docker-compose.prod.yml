@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   vue_app:
     container_name: vue_app
@@ -8,11 +8,11 @@ services:
       dockerfile: Dockerfile.prod
       args:
         API_URL: http://104.236.11.151:8080
-
     ports:
       - 80:80
     depends_on:
       - java_app
+
   java_app:
     container_name: java_app
     image: 'pee-java_app:1.0.0'
