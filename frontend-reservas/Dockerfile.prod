@@ -12,4 +12,4 @@ RUN npm run build
 FROM nginx:1.25.1-alpine3.17-slim
 COPY --from=build-stage /app/.nuxt/dist /usr/share/nginx/html
 EXPOSE 80
-CMD ["nginx", "g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
