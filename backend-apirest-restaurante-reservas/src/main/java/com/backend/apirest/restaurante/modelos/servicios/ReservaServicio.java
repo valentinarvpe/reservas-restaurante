@@ -1,13 +1,8 @@
 package com.backend.apirest.restaurante.modelos.servicios;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.backend.apirest.restaurante.modelos.dto.IReservaDTO;
-import com.backend.apirest.restaurante.modelos.dto.ReservaDto;
-import com.backend.apirest.restaurante.modelos.entidades.Usuario;
-import com.backend.apirest.restaurante.modelos.repositorios.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +15,6 @@ public class ReservaServicio implements IReservaServicio{
 
 	@Autowired
 	private IReservaRepositorio reservaRepository;
-
-	@Autowired
-	private IUsuarioRepository usuarioRepository;
 
 	@Override
 	@Transactional(readOnly = true )

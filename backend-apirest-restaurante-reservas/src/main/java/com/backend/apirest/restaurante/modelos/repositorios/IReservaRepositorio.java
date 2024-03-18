@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.backend.apirest.restaurante.modelos.entidades.Reserva;
 
-import javax.swing.text.html.Option;
 
 @Repository
 public interface IReservaRepositorio extends JpaRepository<Reserva, Long> {

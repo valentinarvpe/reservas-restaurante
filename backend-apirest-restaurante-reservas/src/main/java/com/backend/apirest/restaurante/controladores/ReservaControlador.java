@@ -3,7 +3,6 @@ package com.backend.apirest.restaurante.controladores;
 import java.util.List;
 
 import com.backend.apirest.restaurante.modelos.dto.IReservaDTO;
-import com.backend.apirest.restaurante.modelos.dto.ReservaDto;
 import com.backend.apirest.restaurante.modelos.entidades.Usuario;
 import com.backend.apirest.restaurante.modelos.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
