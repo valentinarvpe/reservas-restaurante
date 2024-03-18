@@ -54,6 +54,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/toast',
     '@nuxtjs/auth-next',
+    '@nuxtjs/dotenv',
     'cookie-universal-nuxt',
   ],
 
