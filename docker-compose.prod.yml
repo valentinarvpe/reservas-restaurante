@@ -9,7 +9,8 @@ services:
       args:
         API_URL: http://104.236.11.151:8080
     ports:
-      - 80:80
+      #- 80:80 -> PARA NGINX
+      - 80:3000
     depends_on:
       - java_app
 
